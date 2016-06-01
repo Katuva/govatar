@@ -1,0 +1,16 @@
+[server]
+port = 80
+
+[app]
+secret       = "5195a597096935651eddd40cbb531fd28f8e256c9fde92dbf962ad67b9a5de81"
+token_secret = "b8ffc0ca917b57f5339196b35a8a3fc1e974d69f7466be24748e134b4ea4e029"
+bcrypt_cost  = 15
+template_dir = "templates"
+static_dirs  = ["assets"]
+
+[database]
+server   = "127.0.0.1"
+port     = 3306
+username = "govatar"
+password = "secret"
+database = "govatar"
