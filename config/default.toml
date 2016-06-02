@@ -9,6 +9,7 @@ template_dir = "templates"
 static_dirs  = ["assets"]
 
 [database]
+type     = "tcp"
 server   = "127.0.0.1"
 port     = 3306
 username = "govatar"

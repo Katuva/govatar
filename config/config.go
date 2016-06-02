@@ -22,6 +22,7 @@ type TomlConf struct {
 	}
 
 	Database struct {
+		Type     string
 		Server   string
 		Port     uint
 		Username string

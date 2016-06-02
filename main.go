@@ -1,15 +1,13 @@
 package main
 
 import (
-	"github.com/katuva/govatar/govatar"
-	"github.com/katuva/govatar/config"
 	"github.com/gin-gonic/gin"
+	"github.com/katuva/govatar/config"
+	"github.com/katuva/govatar/govatar"
 )
 
 func main() {
-	conf := config.LoadConfig("")
-
-	govatar.Conf = conf
+	govatar.Conf = config.LoadConfig("")
 
 	govatar.InitDb()
 	govatar.CreateUser("test2@test.io", "beebop2")

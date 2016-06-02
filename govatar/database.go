@@ -20,21 +20,29 @@ type User struct {
 	Avatar     []byte `gorm:"type:longblob"`
 }
 
-var connectionString string
-var db *gorm.DB
-
 // InitDb Initialise the database
 func InitDb() {
-	connectionString = fmt.Sprintf("%s:%s@/%s?charset=utf8&parseTime=True&loc=Local", Conf.Database.Username, Conf.Database.Password, Conf.Database.Database)
+	db := connDb()
 
-	var err error
-	db, err = gorm.Open("mysql", connectionString)
+	// Migrate the schema
+	db.AutoMigrate(&User{})
+}
+
+func connDb() *gorm.DB {
+	var connectionString string
+
+	if Conf.Database.Type == "unix" {
+		connectionString = fmt.Sprintf("%s:%s@unix(%s)/%s?charset=utf8&parseTime=True&loc=Local", Conf.Database.Username, Conf.Database.Password, Conf.Database.Server, Conf.Database.Database)
+	} else {
+		connectionString = fmt.Sprintf("%s:%s@tcp(%s:%d)/%s?charset=utf8&parseTime=True&loc=Local", Conf.Database.Username, Conf.Database.Password, Conf.Database.Server, Conf.Database.Port, Conf.Database.Database)
+	}
+
+	db, err := gorm.Open("mysql", connectionString)
 	if err != nil {
 		panic("failed to connect to the database")
 	}
 
-	// Migrate the schema
-	db.AutoMigrate(&User{})
+	return db
 }
 
 // CreateUser Create a new user
@@ -44,5 +52,6 @@ func CreateUser(email string, password string) {
 		panic(err)
 	}
 
+	db := connDb()
 	db.Create(&User{Email: email, Password: string(hashedPassword), Hash: SHA256Hash(email)})
 }
