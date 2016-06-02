@@ -32,12 +32,16 @@ type TomlConf struct {
 }
 
 // LoadConfig Load our config file
-func LoadConfig(confPath string) TomlConf {
-	if confPath == "" {
-		confPath = "config/default.toml"
+func LoadConfig(confPath ...string) TomlConf {
+	var confFile string
+
+	if len(confPath) == 0 {
+		confFile = "config/default.toml"
+	} else {
+		confFile = confPath[0]
 	}
 
-	f, err := os.Open(confPath)
+	f, err := os.Open(confFile)
 	if err != nil {
 		panic(err)
 	}

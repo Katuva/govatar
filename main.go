@@ -7,7 +7,7 @@ import (
 )
 
 func main() {
-	govatar.Conf = config.LoadConfig("")
+	govatar.Conf = config.LoadConfig()
 
 	govatar.InitDb()
 	govatar.CreateUser("test2@test.io", "beebop2")
