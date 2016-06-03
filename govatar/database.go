@@ -55,3 +55,13 @@ func CreateUser(email string, password string) {
 	db := connDb()
 	db.Create(&User{Email: email, Password: string(hashedPassword), Hash: SHA256Hash(email)})
 }
+
+// GetUserByHash Get a user by their email hash
+func GetUserByHash(hash string) User {
+	db := connDb()
+
+	var user User
+	db.Where("hash = ?", hash).First(&user)
+
+	return user
+}
